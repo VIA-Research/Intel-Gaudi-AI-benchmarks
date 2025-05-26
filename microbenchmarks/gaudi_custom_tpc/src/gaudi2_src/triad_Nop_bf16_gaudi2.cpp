@@ -36,7 +36,6 @@ tpc_lib_api::GlueCodeReturn TriadNOpBF16Gaudi2::GetGcDefinitions(
             tpc_lib_api::HabanaKernelInstantiation* out_defs)
 {
     tpc_lib_api::GlueCodeReturn retVal;
-    // const int c_unrollCount = 4;
     TriadNOpBF16Param* def = static_cast<TriadNOpBF16Param*>(in_defs->nodeParams.nodeParams);
 
     /*************************************************************************************
@@ -79,9 +78,7 @@ tpc_lib_api::GlueCodeReturn TriadNOpBF16Gaudi2::GetGcDefinitions(
     out_defs->indexSpaceRank = 5;
     out_defs->indexSpaceGeometry[0] = depthIndex;
 	//reduce index space due to unroll.
-    // out_defs->indexSpaceGeometry[1] = (outputSizes[1] +(c_unrollCount-1)) / c_unrollCount; 
     out_defs->indexSpaceGeometry[1] = 1; 
-    // out_defs->indexSpaceGeometry[2] = 1;
     out_defs->indexSpaceGeometry[2] = outputSizes[2];
     out_defs->indexSpaceGeometry[3] = outputSizes[3];
     out_defs->indexSpaceGeometry[4] = outputSizes[4];
@@ -97,40 +94,16 @@ tpc_lib_api::GlueCodeReturn TriadNOpBF16Gaudi2::GetGcDefinitions(
     out_defs->inputTensorAccessPattern[0].mapping[0].start_b  = 0;
     out_defs->inputTensorAccessPattern[0].mapping[0].end_b    = elementsInVec - 1;
 
-	// out_defs->inputTensorAccessPattern[0].mapping[1].indexSpaceDim      = 1;
-    // out_defs->inputTensorAccessPattern[0].mapping[1].a        = c_unrollCount;
-    // out_defs->inputTensorAccessPattern[0].mapping[1].start_b  = 0;
-    // out_defs->inputTensorAccessPattern[0].mapping[1].end_b    = c_unrollCount - 1;
-
-    // out_defs->inputTensorAccessPattern[0].mapping[2].indexSpaceDim      = 2;
-    // out_defs->inputTensorAccessPattern[0].mapping[2].a        = 0;
-    // out_defs->inputTensorAccessPattern[0].mapping[2].start_b  = 0;
-    // out_defs->inputTensorAccessPattern[0].mapping[2].end_b    = 1 - 1;
-
-    // f_start f(i) = elementsInVec*i + 0;
-    // f_end   f(i) = elementsInVec*i + (elementsInVec - 1);
-    // Resource 0 (OFM) dim 0
     out_defs->outputTensorAccessPattern[0].mapping[0].indexSpaceDim      = 0;
     out_defs->outputTensorAccessPattern[0].mapping[0].a        = elementsInVec;
     out_defs->outputTensorAccessPattern[0].mapping[0].start_b  = 0;
     out_defs->outputTensorAccessPattern[0].mapping[0].end_b    = elementsInVec - 1;
 	
-	// out_defs->outputTensorAccessPattern[0].mapping[1].indexSpaceDim      = 1;
-    // out_defs->outputTensorAccessPattern[0].mapping[1].a        = c_unrollCount;
-    // out_defs->outputTensorAccessPattern[0].mapping[1].start_b  = 0;
-    // out_defs->outputTensorAccessPattern[0].mapping[1].end_b    = c_unrollCount - 1;
-
-    // out_defs->outputTensorAccessPattern[0].mapping[2].indexSpaceDim      = 2;
-    // out_defs->outputTensorAccessPattern[0].mapping[2].a        = 0;
-    // out_defs->outputTensorAccessPattern[0].mapping[2].start_b  = 0;
-    // out_defs->outputTensorAccessPattern[0].mapping[2].end_b    = 1 - 1;
-
     /*************************************************************************************
     *    Stage IV -  define scalar parameters
     **************************************************************************************/
     out_defs->kernel.paramsNr = sizeof(*def)/ sizeof(float);
     memcpy(&( out_defs->kernel.scalarParams[0]), def, sizeof(*def));
-
 
     /*************************************************************************************
     *    Stage V -  Load ISA into the descriptor.
