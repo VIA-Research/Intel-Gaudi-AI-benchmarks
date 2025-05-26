@@ -1,13 +1,10 @@
-import os
-import sys
 import torch
-import time
 import argparse
 import habana_frameworks.torch.core as htcore
 import habana_frameworks.torch as ht
 
 def emb_gather_test(emb_dim, num_emb, num_updates, num_tpc, dtype):
-    print(f"Experiment of emb_dim: {emb_dim}, num_emb: {num_emb}, num_updates: {num_updates}, num_tpc: {num_tpc}, dtype: {dtype}")
+    print(f"Gather experiment of emb_dim: {emb_dim}, num_emb: {num_emb}, num_updates: {num_updates}, num_tpc: {num_tpc}, dtype: {dtype}")
     if dtype == "bfloat16":
         dtype = torch.bfloat16
     else:
@@ -19,9 +16,9 @@ def emb_gather_test(emb_dim, num_emb, num_updates, num_tpc, dtype):
     dim1 = num_emb
     size_input = (dim1, dim0)
 
-    iteration = 5
-    latency = []
-    for i in range(0, 0 + iteration):
+    warmup = 5
+    iteration = 10
+    for i in range(0, iteration + warmup):
         input_ = torch.arange(dim1*dim0, dtype=dtype, device='cpu').view(size_input)
         indice = torch.randperm(num_emb, dtype=torch.int, device='cpu')[:num_updates]
         input_hpu = input_.to('hpu')
@@ -34,7 +31,7 @@ def emb_gather_test(emb_dim, num_emb, num_updates, num_tpc, dtype):
         htcore.mark_step()
 
 def emb_scatter_test(emb_dim, num_emb, num_updates, num_tpc, dtype):
-    print(f"Experiment of emb_dim: {emb_dim}, num_emb: {num_emb}, num_updates: {num_updates}, num_tpc: {num_tpc}, dtype: {dtype}")
+    print(f"Scatter experiment of emb_dim: {emb_dim}, num_emb: {num_emb}, num_updates: {num_updates}, num_tpc: {num_tpc}, dtype: {dtype}")
     if dtype == "bfloat16":
         dtype = torch.bfloat16
     else:
@@ -47,9 +44,9 @@ def emb_scatter_test(emb_dim, num_emb, num_updates, num_tpc, dtype):
     size_input = (num_updates, dim0)
     size_output = (num_emb, dim0)
 
-    iteration = 5
-    latency = []
-    for i in range(0, 0 + iteration):
+    warmup = 5
+    iteration = 10
+    for i in range(0, iteration + warmup):
         output = torch.zeros(size_output, dtype=dtype, device='cpu')
         input_ = torch.arange(num_updates*dim0, dtype=dtype, device='cpu').view(size_input)
         indice = torch.randperm(num_emb, dtype=torch.int, device='cpu')[:num_updates]
@@ -71,7 +68,7 @@ if __name__ == "__main__":
     parser.add_argument("--num_emb", type=int, required=True, help="Number of embedding")
     parser.add_argument("--num_tpc", type=int, required=True, help="Number of TPC units")
     parser.add_argument("--num_updates", type=int, required=True, help="Number of gather/scatter")
-    parser.add_argument("--dtype", type=str, required=True, help="Data type: bfloat16")
+    parser.add_argument("--dtype", type=str, default="bfloat16", help="Data type: bfloat16")
 
     args = parser.parse_args()
 
