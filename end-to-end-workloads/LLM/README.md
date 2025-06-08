@@ -9,7 +9,6 @@ This repository provides scripts and helper tools to benchmark LLM text-generati
 1. **Clone Optimum-Habana**  
    ```bash
    git clone https://github.com/huggingface/optimum-habana.git
-   cd optimum-habana
    ```
 2. **Move files in current repository to optimum-hanaban repository**
     ```bash
