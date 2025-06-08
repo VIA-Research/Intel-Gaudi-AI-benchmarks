@@ -28,6 +28,10 @@ pip install torch pandas
   - Launches a single M×K×N matrix-multiply on the Gaudi device.  
   - Configurable data type (`fp16`, `fp32`, `bf16`, `tf32`) and dimensions.  
   - Habana profiler result files will be generated automatically if the profiler is enabled before running this Python script
+  - Usage:  
+    ```bash
+    python gemm.py --m 32 --k 32 --n 32 --dtype bf16
+    ```
 
 - **run_gemm_sqaure.sh**  
   - Sweeps through square GEMM sizes (M=K=N) across the specified range and executes a GEMM for each configuration.  
@@ -58,9 +62,17 @@ pip install torch pandas
 
 - **parser_square_time.py**  
   - Reads `trace_files/*.csv` from square GEMM runs and prints `M, K, N, elapsed_time` to stdout.
+  - Usage:  
+    ```bash
+    python parser_square_time.py --dtype bf16 --type power --start 1 --end 64 --stride 2
+    ```
 
 - **parser_fixed_n_time.py**  
   - Reads `trace_files/*.csv` from fixed-N (or fixed-K) runs and prints `M, K, N, elapsed_time`.
+  - Usage:  
+    ```bash
+    python parser_fixed_n_time.py --dtype bf16 --type power --start 1 --end 64 --stride 2 --fixed-size 16
+    ```
 
 <!-- ## Prerequisites
 
