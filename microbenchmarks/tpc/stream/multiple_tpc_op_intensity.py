@@ -3,8 +3,8 @@ import argparse
 import habana_frameworks.torch.core as htcore
 import habana_frameworks.torch as ht
 
-def add_test(unroll, array_size, num_tpc, num_ops, dtype):
-    print(f"Experiment of array_size: {array_size}, num_tpc: {num_tpc}, unroll: {unroll}, num_ops: {num_ops}, dtype: {dtype}")
+def add_test(array_size, num_tpc, num_ops, dtype):
+    print(f"Experiment of array_size: {array_size}, num_tpc: {num_tpc}, num_ops: {num_ops}, dtype: {dtype}")
     
     if dtype == torch.bfloat16:
         from custom_add_Nop_bf16 import CustomAddNOp
@@ -29,8 +29,8 @@ def add_test(unroll, array_size, num_tpc, num_ops, dtype):
         ht.hpu.synchronize()
         htcore.mark_step()
 
-def scale_test(unroll, array_size, num_tpc, num_ops, dtype):
-    print(f"Experiment of array_size: {array_size}, num_tpc: {num_tpc}, unroll: {unroll}, num_ops: {num_ops}, dtype: {dtype}")
+def scale_test(array_size, num_tpc, num_ops, dtype):
+    print(f"Experiment of array_size: {array_size}, num_tpc: {num_tpc}, num_ops: {num_ops}, dtype: {dtype}")
     
     if dtype == torch.bfloat16:
         from custom_scale_Nop_bf16 import CustomScaleNOp
@@ -54,8 +54,8 @@ def scale_test(unroll, array_size, num_tpc, num_ops, dtype):
         ht.hpu.synchronize()
         htcore.mark_step()
 
-def triad_test(unroll, array_size, num_tpc, num_ops, dtype):
-    print(f"Experiment of array_size: {array_size}, num_tpc: {num_tpc}, unroll: {unroll}, num_ops: {num_ops}, dtype: {dtype}")
+def triad_test(array_size, num_tpc, num_ops, dtype):
+    print(f"Experiment of array_size: {array_size}, num_tpc: {num_tpc}, num_ops: {num_ops}, dtype: {dtype}")
 
     if dtype == torch.bfloat16:
         from custom_triad_Nop_bf16 import CustomTriadNOp
@@ -82,21 +82,20 @@ def triad_test(unroll, array_size, num_tpc, num_ops, dtype):
         htcore.mark_step()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Perform unroll test.")
-    parser.add_argument("--benchmark", type=str, required=True, help="Unroll size")
-    parser.add_argument("--unroll", type=int, required=True, help="Unroll size")
+    parser = argparse.ArgumentParser(description="Perform operational intensity test.")
+    parser.add_argument("--benchmark", type=str, required=True, help="Type of benchmark: add/scale/triad")
     parser.add_argument("--num_tpc", type=int, required=True, help="Number of TPCs")
     parser.add_argument("--array_size", type=int, required=True, help="Array size")
-    parser.add_argument("--dtype", type=str, required=True, help="Data type: bfloat16")
     parser.add_argument("--num_ops", type=int, required=True, help="Number of operations")
+    parser.add_argument("--dtype", type=str, default="bfloat16", help="Data type: bfloat16")
 
     args = parser.parse_args()
 
     assert((args.array_size % 64) == 0)
 
     if args.benchmark == "add":
-        add_test(args.unroll, args.array_size, args.num_tpc, args.num_ops, dtype)
+        add_test(args.array_size, args.num_tpc, args.num_ops, dtype)
     elif args.benchmark == "scale":
-        scale_test(args.unroll, args.array_size, args.num_tpc, args.num_ops, dtype)
+        scale_test(args.array_size, args.num_tpc, args.num_ops, dtype)
     elif args.benchmark == "triad":
-        triad_test(args.unroll, args.array_size, args.num_tpc, args.num_ops, dtype)
+        triad_test(args.array_size, args.num_tpc, args.num_ops, dtype)

@@ -3,8 +3,8 @@ import argparse
 import habana_frameworks.torch.core as htcore
 import habana_frameworks.torch as ht
 
-def add_test(unroll, array_size, num_tpc, dtype):
-    print(f"Add experiment of array_size: {array_size}, num_tpc: {num_tpc}, unroll: {unroll}, dtype: {dtype}")
+def add_test(array_size, num_tpc, dtype):
+    print(f"Add experiment of array_size: {array_size}, num_tpc: {num_tpc}, dtype: {dtype}")
     if dtype == "bfloat16":
         dtype = torch.bfloat16
         from custom_add_bf16 import CustomAdd
@@ -30,8 +30,8 @@ def add_test(unroll, array_size, num_tpc, dtype):
         htcore.mark_step()
 
 
-def scale_test(unroll, array_size, num_tpc, dtype):
-    print(f"Scale experiment of array_size: {array_size}, num_tpc: {num_tpc}, unroll: {unroll}, dtype: {dtype}")
+def scale_test(array_size, num_tpc, dtype):
+    print(f"Scale experiment of array_size: {array_size}, num_tpc: {num_tpc}, dtype: {dtype}")
     if dtype == "bfloat16":
         dtype = torch.bfloat16
         from custom_scale_bf16 import CustomScale
@@ -84,11 +84,11 @@ def triad_test(array_size, num_tpc, dtype):
         htcore.mark_step()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Perform unroll test.")
-    parser.add_argument("--benchmark", type=str, required=True, help="Unroll size")
+    parser = argparse.ArgumentParser(description="Perform multiple TPCs test.")
+    parser.add_argument("--benchmark", type=str, required=True, help="Type of benchmark: add/scale/triad")
     parser.add_argument("--num_tpc", type=int, required=True, help="Number of TPCs")
     parser.add_argument("--array_size", type=int, required=True, help="Array size")
-    parser.add_argument("--dtype", type=str, required=True, help="Data type: bfloat16")
+    parser.add_argument("--dtype", type=str, default="bfloat16", help="Data type: bfloat16")
 
     args = parser.parse_args()
 

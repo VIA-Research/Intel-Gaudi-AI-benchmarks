@@ -112,7 +112,7 @@ def scale_unroll(unroll, array_size, dtype):
         htcore.mark_step()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Perform unroll test.")
+    parser = argparse.ArgumentParser(description="Perform loop unrolling factor test.")
     parser.add_argument("--benchmark", type=str, required=True, help="Type of benchmark: add/scale/triad")
     parser.add_argument("--unroll", type=int, required=True, help="Unroll size")
     parser.add_argument("--array_size", type=int, required=True, help="Array size")

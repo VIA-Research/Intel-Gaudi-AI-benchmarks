@@ -62,7 +62,7 @@ def emb_scatter_test(emb_dim, num_emb, num_updates, num_tpc, dtype):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Perform stride test.")
+    parser = argparse.ArgumentParser(description="Perform vector gather/scatter test.")
     parser.add_argument("--benchmark", type=str, required=True, help="Benchmark: gather/scatter")
     parser.add_argument("--emb_dim", type=int, required=True, help="Embedding dimension")
     parser.add_argument("--num_emb", type=int, required=True, help="Number of embedding")

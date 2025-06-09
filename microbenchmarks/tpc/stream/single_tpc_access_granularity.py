@@ -85,8 +85,8 @@ def scale(depth, array_size, dtype):
         htcore.mark_step()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Perform unroll test.")
-    parser.add_argument("--benchmark", type=str, required=True, help="Type of benchmark")
+    parser = argparse.ArgumentParser(description="Perform access granularity test.")
+    parser.add_argument("--benchmark", type=str, required=True, help="Type of benchmark: add/scale/triad")
     parser.add_argument("--depth", type=int, required=True, help="Depth size")
     parser.add_argument("--array_size", type=int, required=True, help="Array size")
     parser.add_argument("--dtype", type=str, default="bfloat16", help="Data type: bfloat16")
