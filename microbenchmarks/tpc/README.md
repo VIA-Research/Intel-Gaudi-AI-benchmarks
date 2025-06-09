@@ -91,8 +91,6 @@ python tpc_emb_gather_scatter.py \
 
 ## Notes
 
-- All benchmarks only support `bfloat16` data type.
-- Warmup and measurement iterations are included internally in each script.
 - Custom kernels must be compiled and accessible to Python before use.
 
 ## License
