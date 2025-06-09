@@ -1,4 +1,4 @@
-# Gaudi-2 TPC Microbenchmarks
+# Intel Gaudi TPC Microbenchmarks
 
 This repository provides a collection of microbenchmarks for evaluating the performance characteristics of custom TPC (Tensor Processing Core) kernels on the Intel Gaudi-2 AI processor. The benchmarks measure the efficiency of various operations such as `add`, `scale`, and `triad` under different configurations of access granularity, TPC utilization, operation intensity, and loop unrolling.
 
