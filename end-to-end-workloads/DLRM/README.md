@@ -1,6 +1,6 @@
-# DLRM DCN Benchmark on Habana Gaudi
+# DLRM DCN Benchmark on Intel Gaudi
 
-This repository provides an end-to-end pipeline for benchmarking Deep Learning Recommendation Models (DLRM) with Deep & Cross Networks (DCN) on Habana Gaudi processors. It includes synthetic data generation, PyTorch-based model implementation with embeddingbag, and benchmarking scripts for evaluating throughput across different batch sizes and embedding dimensions.
+This repository provides an end-to-end pipeline for benchmarking Deep Learning Recommendation Models (DLRM) with Deep & Cross Networks (DCN) on Intel Gaudi processors. It includes synthetic data generation, PyTorch-based model implementation with embeddingbag, and benchmarking scripts for evaluating throughput across different batch sizes and embedding dimensions.
 
 ## Project Structure
 
@@ -18,7 +18,7 @@ This repository provides an end-to-end pipeline for benchmarking Deep Learning R
 
 ## Prerequisites
 
-- PyTorch with Habana Gaudi HPU backend
+- PyTorch with Intel Gaudi HPU backend
 - `habana_frameworks` and `hpex` libraries
 - Gaudi hardware (e.g., Gaudi2) and SynapseAI installed
 
@@ -63,7 +63,7 @@ This will:
 
 ## Citation
 
-This implementation is based on Meta’s open-source DLRM and customized for Habana Gaudi.  
+This implementation is based on Meta’s open-source DLRM and customized for Intel Gaudi.  
 Original DLRM GitHub: [https://github.com/facebookresearch/dlrm](https://github.com/facebookresearch/dlrm)
 
 ```
