@@ -92,7 +92,3 @@ python tpc_emb_gather_scatter.py \
 ## Notes
 
 - Custom kernels must be compiled and accessible to Python before use.
-
-## License
-
-This project is released under the [Habana Labs Software License](https://github.com/HabanaAI/Habana_Custom_Kernel).
