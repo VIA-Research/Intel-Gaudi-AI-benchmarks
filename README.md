@@ -4,8 +4,6 @@ This repository contains the microbenchmarks and end-to-end AI application code 
 
 - Lee et al., “Debunking the CUDA Myth: Towards GPU-based AI Systems” [[link](https://arxiv.org/abs/2501.00210)]
 
-The source code will be released before the conference dates (June 21–25, 2025).
-
 ## Acknowledgement
 
 This research is funded by the generous support from the following organization:
